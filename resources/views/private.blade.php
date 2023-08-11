@@ -1,3 +1,3 @@
 <h1>
-    user is admin 
+    user is for super admin 
 </h1>

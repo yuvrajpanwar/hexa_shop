@@ -32,9 +32,21 @@ Auth::routes();
 
 
 
-//routes that are accessable only by admin user
+//routes that are accessable only by admin & super_admin 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+Route::get('/sales' , [DashboardController::class,'sales'])->name('sales');
+Route::get('/orders' , [DashboardController::class,'orders'])->name('orders');
+Route::get('/products' , [DashboardController::class,'products'])->name('products');
+Route::get('/customers' , [DashboardController::class,'customers'])->name('customers');
+
+
+//routes that are accessable only by super_admin 
 Route::get('/private' , [DashboardController::class,'private']);
+Route::get('/admin_list' , [DashboardController::class,'admin_list'])->name('admin_list');
+Route::get('/add_admin' , [DashboardController::class,'add_admin'])->name('add_admin');
+Route::post('/add_admin' , [DashboardController::class,'store_admin'])->name('add_admin');
+
 
 
 

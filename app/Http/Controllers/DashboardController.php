@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Gate;
@@ -40,9 +42,59 @@ class DashboardController extends Controller
         return view('auth/orders');
     }
 
-    public function products()
+    public function products(Product $product)
     {
-        return view('auth/products');
+        $products = $product->all();
+        return view('auth/products',['products'=>$products]);
+    }
+
+    public function add_product(Product $product,Category $category)
+    { 
+        $categories = $category->all(); 
+        return view('auth/add_product',['categories'=>$categories]);
+    }
+
+    public function store_product(Request $request, Product $product )
+    {
+            $request->validate([
+                'title' => 'required|min:3',
+                'description' => 'required|min:5',
+                'size' => 'required',
+                'price' => 'required|integer|min:0',
+                'category' => 'required',
+                'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+                'status' => 'required|in:sold,available',
+            ]);
+
+            $image = $request->file('image');
+            $image_name = time() . '.' . $image->getClientOriginalExtension();
+
+            
+            try {
+                // File upload code
+                $image->storeAs('product_images', $image_name, 'public');
+            } catch (\Exception $e) {
+                // Log the error
+                Log::error('File upload error: ' . $e->getMessage());
+                
+                // Redirect with an error message
+                return redirect()->route('add_product')->with('error', 'An error occurred while uploading the image.');
+            }
+            
+
+
+            $new_product = Product::create([
+                'title' => $request->title,
+                'description' => $request->description,
+                'size' => $request->size,
+                'price' => $request->price,
+                'category' => $request->category,
+                'image' => $image_name,
+                'status' => $request->status
+            ]);
+            
+            return redirect()->route('add_product')->with('success', 'Product added successfully!');
+         
     }
 
     public function customers()
@@ -130,7 +182,67 @@ class DashboardController extends Controller
 
     }
 
+    // only for super admin
+    public function destroy(Request $request, User $user )
+    {
+
+        if(Gate::allows('is_super_admin',auth()->user())){
+            $user = User::find($request->id);
+            $user->delete();
+            return redirect()->route('admin_list')->with('success', 'Admin deleted successfully!');
+        }
+        else
+        {
+            abort(403);
+        }  
+
+    }
+
+    // only for super admin
+    public function update_admin(Request $request, User $user )
+    {
+
+        if(Gate::allows('is_super_admin',auth()->user())){
+
+
+            $user = User::find($request->id);
+
+        
+
+            $request->validate([
+                'name' => 'required|min:3',
+                'password' => 'required|min:3|confirmed',
+                'admin_type' => 'required',
+                'email' => [
+                    'required',
+                    'email',
+                ],
+            ]);
+
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'admin_type' => $request->admin_type
+            ]);
+            
+            return redirect()->route('admin_list')->with('success', 'Admin updated successfully!');
+        }
+        else
+        {
+            abort(403);
+        }  
+
+    }
+
+    public function edit_admin_details(Request $request, User $user)
+    {
+        if (Gate::allows('is_super_admin', auth()->user())) {
+            return view('auth/update_admin', ['user' => $user]);
+        } else {
+            abort(403);
+        }
+    }
 
     
-
 }

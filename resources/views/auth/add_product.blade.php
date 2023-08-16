@@ -28,7 +28,7 @@
       <div class="container-fluid">
         <div class="row justify-content-center">
           <div class="col-12">
-            <h1 class="page-title">Add New Admin </h1>
+            <h1 class="page-title">Add New Product </h1>
           </div> <!-- .col-12 -->
         </div> <!-- .row -->
       </div>
@@ -63,58 +63,81 @@
               
               <div class="card-header " >
 
-                <strong class="card-title">Fill New Admin's Detail</strong>
+                <strong class="card-title">Fill New Products's Detail</strong>
                                
               </div>
 
               <div class="card-body">
 
-                <form method="POST" action="{{route('store_admin')}}" class="admin_details" id="admin_details" name="admin_details" >
+                <form method="POST" action="{{route('store_product')}}" class="admin_details" id="admin_details" name="admin_details" enctype="multipart/form-data">
                   @csrf
                   <div class="form-row">
                                        
                     <div class="col-md-8 mb-3">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" required>
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
                     </div>
 
                     <div class="col-md-8 mb-3">
-                      <label for="exampleInputEmail1">Email address</label>
-                      <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
-                      <div class="invalid-feedback"> Please use a valid email </div>
+                      <label for="title">Description</label>
+                      <textarea type="text" class="form-control" id="description" name="description" required>{{ old('description') }}</textarea>
                     </div>
-                    
+
+                    <div class="col-md-8 mb-3">
+                      <label for="size">Size</label>
+                      <input type="text" class="form-control" id="size" name="size" value="{{ old('size') }}" required>                     
+                    </div>
+                  
                   </div>
 
                   <div class="form-row">
 
                     <div class="col-md-8 mb-3">
-                      <label for="password">Password</label>
-                      <input type="text" class="form-control" id="password" name="password"  required>
+                      <label for="price">Price</label>
+                      <input type="number" class="form-control" id="price" name="price" value="{{ old('price')}}" required>
                     </div>
 
                     <div class="col-md-8 mb-3">
-                        <label for="password_confirmation">Conform Password</label>
-                        <input type="text" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                      <label for="category">Image</label>
+                      <input type="file" name="image">
+                    </div>
 
+                    <div class="col-md-8 mb-3">
+                      <label for="admin_type">Category</label>
+                          <select class="form-control" name="category" id="category"  required>
+                              <option disabled selected>--- Select Category ---</option>
+
+                              @foreach ($categories as $category)
+
+                                <option value="{{ $category->id}}"  {{ old('category') == $category->name ? 'selected' : '' }}>{{$category->name}}</option>
+                                
+                                  
+                              @endforeach
+
+                              
+                          </select>                       
                     </div>
 
                   </div>
+
+                 
               
                   <div class="form-row">
+                    
                     <div class="col-md-8 mb-3">
-                        <label for="admin_type">Select Admin Type</label>
-                            <select class="form-control" name="admin_type" id="admin_type"  required>
-                                <option disabled selected>---Select admin type---</option>
-                                <option value="admin"  {{ old('admin_type') == 'admin' ? 'selected' : '' }}>Admin</option>
-                                <option value="super_admin"  {{ old('admin_type') == 'super_admin' ? 'selected' : '' }}>Super admin</option>
+                        <label for="admin_type">Status</label>
+                            <select class="form-control" name="status" id="status"  required>
+                                <option disabled selected>---Status of product---</option>
+                                <option value="sold"  {{ old('status') == 'sold' ? 'selected' : '' }}>Sold</option>
+                                <option value="available"  {{ old('status') == 'available' ? 'selected' : '' }}>Available</option>
                             </select>                       
                     </div>
                     
                   </div>
                   
                  
-                  <button class="btn btn-primary" type="submit"> Add </button>
+                  <button class="btn btn-primary" type="submit">Add Product</button>
+
                 </form>
 
               </div>
@@ -125,8 +148,6 @@
 
       </div>
 
-
-  
 @endsection
 
 
@@ -184,6 +205,6 @@
                           
           });
         });
-  </script>
+  </script> 
 
-@endpush
+@endpush 

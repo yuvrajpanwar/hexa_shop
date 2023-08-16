@@ -105,8 +105,8 @@
                                   </span>
                               </div>
                               <div class="col">
-                                  <p class="small text-muted mb-0">All Admins</p>
-                                 
+                                  <p class="h3 mb-0 ">All Admins</p>
+                                  <p class="h5 mb-0">Total: 4 </p>                                 
                               </div>
                           </div>
                       </div>
@@ -565,7 +565,8 @@
 
         </div>
     </div> <!-- .row -->
-</div> <!-- .container-fluid -->
+</div> 
+
 <div class="modal fade modal-notif modal-slide" tabindex="-1" role="dialog"
     aria-labelledby="defaultModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm" role="document">

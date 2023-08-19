@@ -4,6 +4,8 @@
         <title>@yield('title', 'Hexa Shop')</title>
 
         @include('layout.common_css')
+
+        @stack('css')
         
     </head>
 

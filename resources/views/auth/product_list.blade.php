@@ -43,21 +43,17 @@
     </div>
   </div>
 
-  {{--functions to destroy a user  --}}
+  {{--functions to destroy a product  --}}
   <script>
-    function destroy(id)
-    {         
-      formDelete.submit();
-    }
 
     function showModel(id)
     {
       var deleteForm = document.getElementById("deleteForm");
       var deleteButton = document.getElementById("deleteButton");
   
-      formDelete.action = 'admin_list/'+id;
+      formDelete.action = 'product_list/'+id;
       deleteButton.onclick = function() {
-        destroy(id);
+        formDelete.submit();
       };
     }
   </script>
@@ -99,8 +95,8 @@
               <td>{{$product->category}}</td>
               <td>{{$product->image}}</td>
               <td>{{$product->status}}</td>
-              {{-- <td class="row"><button class="btn btn-danger mr-1 col-6" data-toggle="modal" data-target="#verticalModal" onClick='showModel({!! $product->id !!})' >Delete</button><a href="{{ route('edit_admin_details', ['user' => $product->id]) }}" class="btn btn-success col-4 text-center" style="display: block; margin: 0 auto;">Edit</a> --}}
-                <td><span class="fe fe-24 fe-trash-2"></span> | <span class="fe fe-24 fe-edit-3"></span></td>              
+              {{-- <td><button class="btn btn-danger mr-1 col-6" data-toggle="modal" data-target="#verticalModal" onClick='showModel({!! $product->id !!})' >Delete</button><a href="{{ route('edit_admin_details', ['user' => $product->id]) }}" class="btn btn-success col-4 text-center" style="display: block; margin: 0 auto;">Edit</a> --}}
+                <td><a data-toggle="modal" data-target="#verticalModal" onClick='showModel({!! $product->id !!})' style="color: red"> <span class="fe fe-24 fe-trash-2 "></span></a> | <a href="{{ route('edit_product_details', ['product' => $product->id]) }}"><span class="fe fe-24 fe-edit-3"></span></a></td>              
               </td>
             </tr>
         @endforeach 
@@ -134,7 +130,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body"> Are you sure you want to delete this user ?</div>
+            <div class="modal-body"> Are you sure you want to delete this Product ?</div>
             <div class="modal-footer">
                 <button type="button" class="btn mb-2 btn-secondary" data-dismiss="modal">No</button>
                 <button type="button" class="btn mb-2 btn-danger" id="deleteButton">Yes</button>

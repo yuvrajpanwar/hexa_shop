@@ -51,7 +51,7 @@
 
                 <div class="col-md-6 col-xl-3 mb-4">
                     <div class="card shadow border-0">
-                      <a href="{{ route('products') }}">
+                      <a href="{{ route('product_list') }}">
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-3 text-center">

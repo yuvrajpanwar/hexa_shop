@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\CustomerAuth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Foundation\Auth\AuthenticatesCustomers;
 
-class LoginController extends Controller
+class CustomerLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -18,14 +18,14 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesCustomers;
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::DASHBOARD;
+    protected $redirectTo = RouteServiceProvider::HOME;
 
    
 
@@ -36,7 +36,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:customer')->except('logout');
     }
 
 } 

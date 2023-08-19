@@ -7,8 +7,10 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class DashboardController extends Controller
 {
@@ -19,7 +21,7 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-       $this->middleware('auth');
+       $this->middleware('auth'); 
     }
 
     /**
@@ -42,16 +44,23 @@ class DashboardController extends Controller
         return view('auth/orders');
     }
 
-    public function products(Product $product)
+    public function product_list(Product $product)
     {
         $products = $product->all();
-        return view('auth/products',['products'=>$products]);
+        return view('auth/product_list',['products'=>$products]);
     }
 
     public function add_product(Product $product,Category $category)
     { 
         $categories = $category->all(); 
         return view('auth/add_product',['categories'=>$categories]);
+    }
+
+    public function destroy_product(Request $request, Product $product)
+    {
+        $product = Product::find($request->id);
+        $product->delete();
+        return redirect()->route('product_list')->with('success', 'Product deleted successfully!');
     }
 
     public function store_product(Request $request, Product $product )
@@ -95,6 +104,46 @@ class DashboardController extends Controller
             
             return redirect()->route('add_product')->with('success', 'Product added successfully!');
          
+    }
+
+    public function edit_product_details(Request $request, Product $product, Category $category)
+    {
+        $categories = $category->all();
+        return view('auth/update_product', ['product' => $product, 'categories'=>$categories]);
+    }
+
+    public function update_product(Request $request, Product $product )
+    {
+
+       
+
+
+            $product = Product::find($request->id);
+
+        
+
+            // $request->validate([
+            //     'name' => 'required|min:3',
+            //     'password' => 'required|min:3|confirmed',
+            //     'admin_type' => 'required',
+            //     'email' => [
+            //         'required',
+            //         'email',
+            //     ],
+            // ]);
+
+            $product->update([
+                'title' => $request->title,
+                'description' => $request->description,
+                'size' => $request->size,
+                'price' => $request->price,
+                'category' => $request->category,
+                'status' => $request->status,
+                'image' => $request->image ?? $product->image       
+            ]);
+            
+            return redirect()->route('product_list')->with('success', 'Product updated successfully!');  
+
     }
 
     public function customers()
@@ -244,5 +293,18 @@ class DashboardController extends Controller
         }
     }
 
-    
+    // public function logout()
+    // {
+    //     Session::flush(); 
+        
+    //     return redirect('/login')->with('success','Logout Successfully !'); 
+    // }
+
+    public function logout()
+    {
+        Auth::guard('web')->logout();
+        
+        return redirect('/login')->with('success', 'Logout Successfully !');
+    }
+  
 }

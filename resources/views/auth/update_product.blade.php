@@ -52,7 +52,7 @@
 
               @if(session('success'))
                   <div class="alert alert-success show" id="alert-success">
-                      <a data-toggle="collapse" href="#alert-success" role="button" aria-expanded="true" aria-controls="alert-success" class="btn-link close-button">x</a>
+                      <a data-toggle="collapse" href="#alert-success" role="button" aria-expanded="true" aria-controls="alert-success" class="btn-link close-button"><span class="fe fe-24 fe-x"></span></a>
 
 
                       {{ session('success') }}
@@ -75,8 +75,8 @@
                   <div class="form-row">
                                        
                     <div class="col-md-8 mb-3">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" value="{{ $product->title }}" required>
+                        <label for="name">name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ $product->name }}" required>
                     </div>
 
                     <div class="col-md-8 mb-3">
@@ -98,11 +98,11 @@
                       <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}" required>
                     </div>
 
-                    <div class="col-md-8 mb-3">
+                    {{-- <div class="col-md-8 mb-3">
                       <label for="category">Image</label>
                       <p>Existing Image: {{ $product->image }}</p>
                       <input type="file" name="image" >
-                    </div>
+                    </div> --}}
 
                     <div class="col-md-8 mb-3">
                       <label for="admin_type">Category</label>
@@ -111,7 +111,7 @@
 
                               @foreach ($categories as $category)
 
-                                <option value="{{ $category->id}}"  {{ $product->category == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
+                                <option value="{{ $category->id}}"  {{ $product->category->id == $category->id ? 'selected' : '' }}>{{$category->name}}</option>
                                 
                                   
                               @endforeach

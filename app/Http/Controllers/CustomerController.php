@@ -11,60 +11,55 @@ use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
-    //
+
     public function __construct()
     {
-        $this->middleware('auth:customer'); 
+        // $this->middleware('auth:customer'); 
     }
 
+    // public function customer_logout()
+    // {
 
-    public function login_signup()
+    //     Auth::guard('customer')->logout();
+
+    //     return redirect('/customer_login')->with('success', 'Logout Successfully !');
+    // }
+
+    public function profile(Request $request)
     {
-        return view('login_signup');
+        $customer = Auth::guard('customer')->user();
+
+        return view('customer.profile', compact('customer'));
     }
 
-    public function signup()
+    public function update_details(Request $request)
     {
-        return view('customer_signup');
-    }
-
-    public function store_customer(Request $request, Customer $customer)
-    {
-        $request->validate([
-            'name' => 'required|min:3',
-            'password' => 'required|min:8|confirmed',  
-            'address' => 'required',
-            'phone' => 'required|numeric|digits:10',
-            'email' => [
-                'required',
-                'email',
-                Rule::unique('customers')->where(function ($query) use ($request) {
-                    // Check if the email is unique except for the current user's email (if editing)
-                    if ($request->has('id')) {
-                        $query->where('id', '!=', $request->input('id'));
-                    }
-                }),
+        $customer = Customer::where('id', Auth::guard('customer')->user()->id);
+        $request->validate(
+            [
+                'name' => 'required|string|max:255',
+                'password' => 'nullable|string|min:5|max:20|confirmed',
+                'address' => 'required',
+                // 'phone' => 'required',
+                // 'email' => 'required|string|email|max:255',
             ],
-        ]);
-   
-        $newCustomer = Customer::create([
+            [
+                "password.confirmed" => "Confirm password does not match."
+            ]
+        );
+
+        $customer->update([
             'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
             'address' => $request->address,
-            'password' => Hash::make($request->password),
+            // 'email' => $request->email,
+            // 'phone' => $request->phone,
         ]);
+        if ($request->password) {
+            $customer->update([
+                'password' => Hash::make($request->password)
+            ]);
+        }
 
-        return redirect()->route('customer_login')->with('success', 'Account Created successfully! Please log in.');
+        return redirect()->back()->with('message', 'Details updated successfully.');
     }
-
-    public function customer_logout()
-    {
-
-        Auth::guard('customer')->logout();
-        
-        return redirect('/customer_login')->with('success', 'Logout Successfully !');
-    }
-
-
 }

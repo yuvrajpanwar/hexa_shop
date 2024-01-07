@@ -26,8 +26,9 @@
 <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
 <script src="{{ asset('js/jquery.timepicker.js') }}"></script>
 <script src="{{ asset('js/dropzone.min.js') }}"></script>
-<script src="{{ asset('js/uppy.min.js') }}"></script>
 <script src="{{ asset('js/quill.min.js') }}"></script>
+<script src="{{ asset('js/apps.js') }}"></script>
+
 <script>
     $('.select2').select2(
         {
@@ -200,27 +201,5 @@
         }, false);
     })();
 </script>
-<script>
-    var uptarg = document.getElementById('drag-drop-area');
-    if (uptarg) {
-        var uppy = Uppy.Core().use(Uppy.Dashboard,
-            {
-                inline: true,
-                target: uptarg,
-                proudlyDisplayPoweredByUppy: false,
-                theme: 'dark',
-                width: 770,
-                height: 210,
-                plugins: ['Webcam']
-            }).use(Uppy.Tus,
-                {
-                    endpoint: 'https://master.tus.io/files/'
-                });
-        uppy.on('complete', (result) => {
-            console.log('Upload complete! We’ve uploaded these files:', result.successful)
-        });
-    }
-</script>
-<script src="{{ asset('js/apps.js') }}"></script>
 
 <!--here-->

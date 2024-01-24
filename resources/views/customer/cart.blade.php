@@ -11,7 +11,12 @@
                             <form action="">
                                 <div class="table-responsive">
                                     @if (count($cart_products) == 0)
-                                        <div style="">Please add products to your cart !</div>
+                                        <h1 style="color: #ff6666 ;font-size:xxx-large">Your cart is empty !</h1>
+                                        <h4 class="mb20">Please add products in your cart .</h4>
+                                        <div style="margin-top:100px;">
+                                            <a class="continue_shopping" href="{{ route('home') }}"
+                                                style="font-size:25px">Continue Shopping &rarr;</a>
+                                        </div>
                                     @else
                                         <table class="table">
                                             <thead>
@@ -28,7 +33,7 @@
                                             <tbody>
                                                 @foreach ($cart_products as $item)
                                                     <tr id="{{ $item->id }}">
-                                                        
+
                                                         <td><a
                                                                 href="{{ route('product', ['product_id' => $item->product_id]) }}"><img
                                                                     src="{{ asset('storage/product_images/' . $item->product->images[0]->name) }}"
@@ -44,10 +49,10 @@
                                                                 id="quantity_{{ $item->id }}"
                                                                 onchange="update_quantity({{ $item->id }})"
                                                                 min="1" max="10"></td>
-                                                                <td><a class="remove" href="javascript:void(0)"
-                                                                    onclick="remove_cart_product({{ $item->user_id }},{{ $item->product_id }},{{ $item->id }})">
-                                                                    <fa class="fa fa-close"></fa>
-                                                                </a></td>
+                                                        <td><a class="remove" href="javascript:void(0)"
+                                                                onclick="remove_cart_product({{ $item->user_id }},{{ $item->product_id }},{{ $item->id }})">
+                                                                <fa class="fa fa-close"></fa>
+                                                            </a></td>
                                                     </tr>
                                                 @endforeach
 
@@ -61,12 +66,12 @@
                                 <table class="aa-totals-table">
                                     <tbody>
                                         <tr>
-                                            <th>Grand Total</th>
+                                            <th>Total Amount</th>
                                             <td id="grand_total">{{ $grand_total }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
-                                <a href="#" class="aa-cart-view-btn">Proced to Checkout</a>
+                                <a href="{{ route('checkout') }}" class="aa-cart-view-btn">Proced to Checkout</a>
                             </div>
                             @endif
 
@@ -93,8 +98,12 @@
                     $('#' + item_id).hide();
                     $('.aa-cart-notify').html(data.total_cart_products);
                     $('#grand_total').html(data.grand_total);
-                    if(data.total_cart_products==0){
-                        $('.cart-view-table').html('Please add products to your cart !');
+                    if (data.total_cart_products == 0) {
+                        $('.cart-view-table').html(` <h1 style="color: #ff6666 ;font-size:xxx-large">Your cart is empty !</h1>
+                                        <h4 class="mb20">Please add products in your cart .</h4>
+                                        <div style="margin-top:100px;">
+                                            <a class="continue_shopping"  href="{{ route('home') }}" style="font-size:25px">Continue Shopping &rarr;<a>
+                                        </div>`);
                     }
                     alert(data.message);
                 },

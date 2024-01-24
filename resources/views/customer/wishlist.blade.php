@@ -1,5 +1,9 @@
 @extends('customer_layout.customer_app')
 
+@push('css')
+    <style>
+    </style>
+@endpush
 
 @section('content')
     <section id="cart-view">
@@ -9,7 +13,11 @@
                     <div class="cart-view-area">
                         <div class="cart-view-table aa-wishlist-table">
                             @if (count($wishlist_products) == 0)
-                                Please add products to your wishlist !
+                                <h1 style="color: #ff6666 ;font-size:xxx-large">Your wishlist is empty !</h1>
+                                <h4 class="mb20">Please add products in your wishlist .</h4>
+                                <div style="margin-top:100px;">
+                                    <a class="continue_shopping"  href="{{route('home')}}" style="font-size:25px">Continue Shopping &rarr;<a>
+                                </div>
                             @else
                                 <form action="">
                                     <div class="table-responsive">
@@ -86,8 +94,13 @@
                 success: function(data) {
                     $('#' + item_id).hide();
                     if (data.total_wishlist_products == 0) {
-                        $('.cart-view-table').html('Please add products to your wishlist !');
+                        $('.cart-view-table').html(` <h1 style="color: #ff6666 ;font-size:xxx-large">Your wishlist is empty !</h1>
+                                        <h4 class="mb20">Please add products in your wishlist .</h4>
+                                        <div style="margin-top:100px;">
+                                            <a class="continue_shopping"  href="{{route('home')}}" style="font-size:25px">Continue Shopping &rarr;<a>
+                                        </div>`);
                     }
+                    $('#total_wishlist_products').html(data.total_wishlist_products);
                     alert(data.message);
                 },
                 error: function(error) {

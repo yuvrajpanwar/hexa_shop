@@ -61,7 +61,9 @@ class WishlistController extends Controller
             $message = 'Product already in wishlist';
         }
 
-        return response()->json(['message' => $message], 201);
+        $total_wishlist_products = Wishlist::where('user_id', $user_id)->count();
+
+        return response()->json(['message' => $message, 'total_wishlist_products' => $total_wishlist_products], 201);
     }
 
     public function remove_wishlist_product(Request $request)

@@ -24,9 +24,20 @@
 
     @stack('css')
     <style>
-        .justify-content-center{
+        .justify-content-center {
             display: flex;
             justify-content: center;
+        }
+
+        .mb20{
+            margin-bottom: 20px
+        }
+        
+        .continue_shopping:hover{
+            color: #ff6666;
+        }
+        .text-align-left{
+            text-align: left!important;
         }
     </style>
 
@@ -39,30 +50,6 @@
     @yield('content')
 
     @include('customer_layout.footer')
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-    <script src="{{ asset('customer/js/bootstrap.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/jquery.smartmenus.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/jquery.smartmenus.bootstrap.js') }}"></script>
-    <script src="{{ asset('customer/js/sequence.js') }}"></script>
-    <script src="{{ asset('customer/js/sequence-theme.modern-slide-in.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/jquery.simpleGallery.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/jquery.simpleLens.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/slick.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('customer/js/nouislider.js') }}"></script>
-    <script src="{{ asset('customer/js/custom.js') }}"></script>
-
-    <script>
-        $(document).ready(function(){
-            @if (($errors->has('email') && $errors->email != "The email has already been taken.") || $errors->has('password') )
-                $('#login_button').click();
-                console.log({{$errors}});
-            @endif
-        });
-    </script>
-    @stack('js')
 
 
     <!-- Login Modal -->
@@ -90,13 +77,38 @@
                             {{-- <a href="#">Lost your password?</a> --}}
                         </p>
                         <div class="aa-register-now">
-                            Don't have an account?<a href="{{route('customer_register')}}">Register now!</a>
+                            Don't have an account?<a href="{{ route('customer_register') }}">Register now!</a>
                         </div>
                     </form>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="{{ asset('customer/js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/jquery.smartmenus.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/jquery.smartmenus.bootstrap.js') }}"></script>
+    <script src="{{ asset('customer/js/sequence.js') }}"></script>
+    <script src="{{ asset('customer/js/sequence-theme.modern-slide-in.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/jquery.simpleGallery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/jquery.simpleLens.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/slick.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('customer/js/nouislider.js') }}"></script>
+    <script src="{{ asset('customer/js/custom.js') }}"></script>
+
+    <script>
+        $(document).ready(function() {
+            @if (($errors->has('email') && $errors->email != 'The email has already been taken.') || $errors->has('password'))
+                $('#login_button').click();
+            @endif
+        });
+    </script>
+    @stack('js')
+
+
 
 </body>
 

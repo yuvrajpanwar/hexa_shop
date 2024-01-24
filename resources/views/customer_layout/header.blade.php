@@ -1,14 +1,17 @@
 @php
     use App\Models\Category;
     use App\Models\Cart;
+    use App\Models\Wishlist;
 
     $categories = Category::where('Status', 'Enabled')->get();
-    if (session()->has('FRONT_USER_LOGIN')) {
-        $user_id = session()->get('FRONT_USER_LOGIN');
+    if (session()->has('FRONT_USER_ID')) {
+        $user_id = session()->get('FRONT_USER_ID');
     } else {
         $user_id = get_user_temp_id();
     }
     $total_cart_products = Cart::where('user_id', $user_id)->count();
+        
+    $total_wishlist_products = Wishlist::where('user_id', $user_id)->count();
 @endphp
 
 <!-- wpf loader Two -->
@@ -96,13 +99,14 @@
                                     data-target="#login-modal" id="login_button">Login</a></li>
                         @else
                             <li style="float: right;"><a href="#" class="has-submenu" id="sm-1704442527860038-19"
-                                    aria-haspopup="true" aria-controls="sm-1704442527860038-20" aria-expanded="false">My
+                                    aria-haspopup="true" aria-controls="sm-1704442527860038-20" aria-expanded="false">
                                     Account
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu sm-nowrap" id="sm-1704442527860038-20" role="group"
                                     aria-hidden="true" aria-labelledby="sm-1704442527860038-19" aria-expanded="false"
                                     style="width: auto; display: none; top: auto; left: 0px; margin-left: 0px; margin-top: 0px; min-width: 10em; max-width: 20em;">
-                                    <li><a href="{{route('profile')}}">Profile</a></li>
+                                    <li><a href="{{route('profile')}}">My Profile</a></li>
+                                    <li><a href="{{route('my_orders')}}">My Orders</a></li>
                                     <li style="margin-top:5px"><a href="#"
                                             onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">Log
@@ -115,7 +119,7 @@
                             </li>
                         @endif
 
-                        <li style="float: right;"><a style="" href="{{ route('wishlist') }}">Wishlist</a></li>
+                        <li style="float: right;"><a style="" href="{{ route('wishlist') }}">Wishlist (<span id="total_wishlist_products">{{$total_wishlist_products}}</span>)</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

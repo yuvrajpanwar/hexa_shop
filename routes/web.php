@@ -7,12 +7,14 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\MyOrdersController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackgroundController;
 use App\Http\Controllers\CustomerAuth\CustomerLoginController;
 use App\Http\Controllers\CustomerAuth\CustomerRegisterController;
+use App\Http\Controllers\RazorpayPaymentController;
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('category/{category}', [FrontController::class, 'category'])->name('category');
@@ -35,7 +37,19 @@ Route::post('customer_register',[CustomerRegisterController::class,'register'])-
 Route::get('profile',[CustomerController::class, 'profile'])->name('profile');
 Route::post('update_details',[CustomerController::class, 'update_details'])->name('update_details');
 
+// checkout routes
+Route::get('checkout',[FrontController::class, 'checkout'])->name('checkout');
+Route::post('place_order',[FrontController::class, 'place_order'])->name('place_order');
 
+
+//my order routes
+Route::get('my_orders',[MyOrdersController::class, 'my_orders'])->name('my_orders');
+Route::get('make_payment',[MyOrdersController::class, 'make_payment'])->name('make_payment');
+Route::get('create_order_id',[RazorpayPaymentController::class, 'create_order_id'])->name('create_order_id');
+Route::post('update_payment_status',[MyOrdersController::class, 'update_payment_status'])->name('update_payment_status');
+Route::get('order_placed',[MyOrdersController::class, 'order_placed'])->name('order_placed');
+Route::post('pay_now',[MyOrdersController::class, 'pay_now'])->name('pay_now');
+Route::get('payment_successful',[MyOrdersController::class, 'payment_successful'])->name('payment_successful');
 
 
 

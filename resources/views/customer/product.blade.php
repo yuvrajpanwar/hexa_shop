@@ -138,6 +138,7 @@
                 console.log(response);
                 alert(response.message);
                 $('#add_to_wishlist_button').hide();
+                $('#total_wishlist_products').html(response.total_wishlist_products);
             },
             error: function(error) {
                 console.error('Error submitting form:', error);

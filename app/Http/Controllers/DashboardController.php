@@ -32,10 +32,7 @@ class DashboardController extends Controller
         return view('auth/sales');
     }
 
-    public function orders()
-    {
-        return view('auth/orders');
-    }
+
 
     public function product_list()
     {

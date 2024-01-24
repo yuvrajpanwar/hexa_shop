@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MyOrdersController;
@@ -12,9 +13,9 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackgroundController;
+use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\CustomerAuth\CustomerLoginController;
 use App\Http\Controllers\CustomerAuth\CustomerRegisterController;
-use App\Http\Controllers\RazorpayPaymentController;
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('category/{category}', [FrontController::class, 'category'])->name('category');
@@ -68,7 +69,7 @@ Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
 //routes that are accessable only by admin & super_admin 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/sales', [DashboardController::class, 'sales'])->name('sales');
-Route::get('/order_list', [DashboardController::class, 'orders'])->name('orders');
+Route::get('/order_list', [OrdersController::class, 'orders'])->name('orders');
 Route::get('/product_list', [DashboardController::class, 'product_list'])->name('product_list');
 Route::delete('/product_list/{id}', [DashboardController::class, 'destroy_product']);
 Route::post('/add_product', [DashboardController::class, 'store_product'])->name('store_product');
@@ -116,3 +117,7 @@ Route::get('/backgrounds', [BackgroundController::class, 'backgrounds'])->name('
 Route::get('/add_background', [BackgroundController::class, 'add_background'])->name('add_background');
 Route::post('/store_background', [BackgroundController::class, 'store_background'])->name('store_background');
 Route::delete('/destroy_background/{id}', [BackgroundController::class, 'destroy_background']);
+
+
+Route::post('allOrders',[OrdersController::class,'allOrders'])->name('allOrders');
+Route::post('update_order_status',[OrdersController::class,'update_order_status'])->name('update_order_status');

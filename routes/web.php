@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\ImageController;
-use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MyOrdersController;
@@ -13,6 +12,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackgroundController;
+use App\Http\Controllers\Admin\SalesController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\CustomerAuth\CustomerLoginController;
 use App\Http\Controllers\CustomerAuth\CustomerRegisterController;
@@ -68,7 +69,7 @@ Route::post('/logout', [DashboardController::class, 'logout'])->name('logout');
 
 //routes that are accessable only by admin & super_admin 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/sales', [DashboardController::class, 'sales'])->name('sales');
+Route::get('/sales', [SalesController::class, 'sales'])->name('sales');
 Route::get('/order_list', [OrdersController::class, 'orders'])->name('orders');
 Route::get('/product_list', [DashboardController::class, 'product_list'])->name('product_list');
 Route::delete('/product_list/{id}', [DashboardController::class, 'destroy_product']);

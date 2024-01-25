@@ -25,19 +25,15 @@ class OrdersController extends Controller
 
     public function allOrders(Request $request)
     {
-
         // Page Length
         $pageNumber = ($request->start / $request->length) + 1;
         $pageLength = $request->length;
         $skip       = ($pageNumber - 1) * $pageLength;
-
         // Page Order
         $orderColumnIndex = $request->order[0]['column'] ?? '0';
         $orderBy = $request->order[0]['dir'] ?? 'desc';
-
         // get data from table
         $query = Order::select('*');
-
         // Search
         $search = $request->search;
         $query = $query->where(function ($query) use ($search) {

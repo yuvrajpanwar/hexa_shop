@@ -75,7 +75,7 @@
                                 data._token = '{{ csrf_token() }}';
                             }
                         },
-                        order: ['1', 'DESC'],
+                        order: ['0', 'DESC'],
                         pageLength: 10,
                         searching: true,
                         aoColumns: [{

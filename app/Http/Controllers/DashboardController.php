@@ -27,10 +27,7 @@ class DashboardController extends Controller
         return view('Auth/dashboard');
     }
 
-    public function sales()
-    {
-        return view('auth/sales');
-    }
+
 
 
 

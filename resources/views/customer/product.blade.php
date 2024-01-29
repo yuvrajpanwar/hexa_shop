@@ -1,5 +1,25 @@
 @extends('customer_layout.customer_app')
 
+@push('css')
+    <style>
+        .simpleLens-big-image-container {
+            width: 300px;
+            height: 370px !important;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            /* overflow: hidden; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .simpleLens-big-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+@endpush
 
 @section('content')
     <!-- product category -->
@@ -10,45 +30,65 @@
                     <div class="aa-product-details-area">
                         <div class="aa-product-details-content">
                             <div class="row">
+
                                 <!-- Modal view slider -->
                                 <div class="col-md-5 col-sm-5 col-xs-12">
                                     <div class="aa-product-view-slider">
                                         <div id="demo-1" class="simpleLens-gallery-container">
-                                            <div class="simpleLens-container">
-                                                <div class="simpleLens-big-image-container"><a
-                                                        data-lens-image="{{asset('storage/product_images').'/'.$product->images[0]->name}}"
-                                                        class="simpleLens-lens-image"><img
-                                                            src="{{asset('storage/product_images').'/'.$product->images[0]->name}}"
-                                                            class="simpleLens-big-image"></a></div>
+                                            <div class="simpleLens-container" style="display:flex;justify-content:center">
+                                                <div class="simpleLens-big-image-container img-container"><a
+                                                        data-lens-image="{{ asset('storage/product_images') . '/' . $product->images[0]->name }}"
+                                                        class="simpleLens-lens-image">
+                                                        <img
+                                                            src="{{ asset('storage/product_images') . '/' . $product->images[0]->name }}"
+                                                            class="simpleLens-big-image product-image">
+                                                        </a>
+                                                </div>
                                             </div>
-                                            
+                                            <div class="simpleLens-thumbnails-container" style="display: flex;justify-content:center">
+                                                @foreach ($product->images as $image)
+                                                <a data-big-image="{{ asset('storage/product_images') . '/' . $image->name }}" data-lens-image="{{ asset('storage/product_images') . '/' . $image->name }}" class="simpleLens-thumbnail-wrapper" href="#" style="display: flex;justify-content:center;height:55px;width:55px">
+                                                    <img src="{{ asset('storage/product_images') . '/' . $image->name }}" style="object-fit:contain">
+                                                  </a>  
+                                                @endforeach
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                             
+                      
+
+
                                 <!-- Modal view content -->
                                 <div class="col-md-7 col-sm-7 col-xs-12">
                                     <div class="aa-product-view-content">
-                                        <h3>{{$product->name}}</h3>
+                                        <h3>{{ $product->name }}</h3>
                                         <div class="aa-price-block">
                                             <span class="aa-product-view-price"> &#8377;{{ $product->price }}</span>
-                                            <p class="aa-product-avilability">Avilability: <span>{{$product->status}}</span></p>
+                                            <p class="aa-product-avilability">Avilability:
+                                                <span>{{ $product->status }}</span>
+                                            </p>
                                         </div>
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis animi,
                                             veritatis quae repudiandae quod nulla porro quidem, itaque quis quaerat!</p>
                                         <h4>Size</h4>
                                         <div class="aa-prod-view-size">
-                                            <a href="#">{{$product->size}}</a>
+                                            <a href="#">{{ $product->size }}</a>
                                         </div>
-                                      
-                                        <div class="aa-prod-quantity" >
-                                            
+
+                                        <div class="aa-prod-quantity">
+
                                             <p class="aa-prod-category" style="margin-left:0">
-                                                Category: <a href="#">{{$product->category->name}}</a>
+                                                Category: <a href="#">{{ $product->category->name }}</a>
                                             </p>
                                         </div>
                                         <div class="aa-prod-view-bottom">
-                                            <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick="add_to_cart({{$product->id}})" id="add_to_cart_button">Add To Cart</a>
-                                            <a class="aa-add-to-cart-btn" href="javascript:void(0)" onclick="add_to_wishlist({{$product->id}})" id="add_to_wishlist_button">Add To Wishlist</a>
+                                            <a class="aa-add-to-cart-btn" href="javascript:void(0)"
+                                                onclick="add_to_cart({{ $product->id }})" id="add_to_cart_button">Add To
+                                                Cart</a>
+                                            <a class="aa-add-to-cart-btn" href="javascript:void(0)"
+                                                onclick="add_to_wishlist({{ $product->id }})"
+                                                id="add_to_wishlist_button">Add To Wishlist</a>
                                         </div>
                                     </div>
                                 </div>
@@ -58,7 +98,7 @@
                             <ul class="nav nav-tabs" id="myTab2">
 
                                 <li><a href="#description" data-toggle="tab">Description</a></li>
-                                
+
                             </ul>
 
                             <!-- Tab panes -->
@@ -89,10 +129,10 @@
                                         fugiat, minima quaerat necessitatibus? Optio adipisci ab, obcaecati, porro unde
                                         accusantium facilis repudiandae.</p>
                                 </div>
-                               
+
                             </div>
                         </div>
-                  
+
                     </div>
                 </div>
             </div>
@@ -106,46 +146,44 @@
 @endsection
 
 @push('js')
-<script>
-    
-    function add_to_cart(product_id) {
-        $('#product_id').val(product_id);
-        var formData = $('#cart_form').serialize();
-        $.ajax({
-            type: 'POST',
-            url: `{{ route('add_to_cart') }}`,
-            data: formData,
-            success: function(response) {
-                console.log(response);
-                alert(response.message);
-                $('.aa-cart-notify').html(response.total_cart_products);
-                $('#add_to_cart_button').hide();
-            },
-            error: function(error) {
-                console.error('Error submitting form:', error);
-            }
-        });
-    }
+    <script>
+        function add_to_cart(product_id) {
+            $('#product_id').val(product_id);
+            var formData = $('#cart_form').serialize();
+            $.ajax({
+                type: 'POST',
+                url: `{{ route('add_to_cart') }}`,
+                data: formData,
+                success: function(response) {
+                    console.log(response);
+                    alert(response.message);
+                    $('.aa-cart-notify').html(response.total_cart_products);
+                    $('#add_to_cart_button').hide();
+                },
+                error: function(error) {
+                    console.error('Error submitting form:', error);
+                }
+            });
+        }
 
-    function add_to_wishlist(product_id) {
-        $('#product_id').val(product_id);
-        var formData = $('#cart_form').serialize();
-        $.ajax({
-            type: 'POST',
-            url: `{{ route('add_to_wishlist') }}`,
-            data: formData,
-            success: function(response) {
-                console.log(response);
-                alert(response.message);
-                $('#add_to_wishlist_button').hide();
-                $('#total_wishlist_products').html(response.total_wishlist_products);
-            },
-            error: function(error) {
-                console.error('Error submitting form:', error);
-                alert('Some error occurred !');
-            }
-        });
-    }
-
-</script>
+        function add_to_wishlist(product_id) {
+            $('#product_id').val(product_id);
+            var formData = $('#cart_form').serialize();
+            $.ajax({
+                type: 'POST',
+                url: `{{ route('add_to_wishlist') }}`,
+                data: formData,
+                success: function(response) {
+                    console.log(response);
+                    alert(response.message);
+                    $('#add_to_wishlist_button').hide();
+                    $('#total_wishlist_products').html(response.total_wishlist_products);
+                },
+                error: function(error) {
+                    console.error('Error submitting form:', error);
+                    alert('Some error occurred !');
+                }
+            });
+        }
+    </script>
 @endpush

@@ -15,6 +15,7 @@ use App\Http\Controllers\BackgroundController;
 use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\RazorpayPaymentController;
+use App\Http\Controllers\Admin\ManageCustomerController;
 use App\Http\Controllers\CustomerAuth\CustomerLoginController;
 use App\Http\Controllers\CustomerAuth\CustomerRegisterController;
 
@@ -76,7 +77,9 @@ Route::delete('/product_list/{id}', [DashboardController::class, 'destroy_produc
 Route::post('/add_product', [DashboardController::class, 'store_product'])->name('store_product');
 Route::get('/edit_product_details/{product}', [DashboardController::class, 'edit_product_details'])->name('edit_product_details');
 Route::put('/update_product/{id}', [DashboardController::class, 'update_product'])->name('update_product');
-Route::get('/customer_list', [DashboardController::class, 'customers'])->name('customers');
+Route::get('/customers', [ManageCustomerController::class, 'customers'])->name('customers');
+Route::get('/edit_customer/{customer}', [ManageCustomerController::class, 'edit_customer'])->name('edit_customer');
+Route::put('/update_customer/{customer}', [ManageCustomerController::class, 'update_customer'])->name('update_customer');
 Route::get('/add_product', [DashboardController::class, 'add_product'])->name('add_product');
 //end routes that are accessable only by admin & super_admin 
 

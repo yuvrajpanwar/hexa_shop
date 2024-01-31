@@ -263,15 +263,30 @@ class FrontController extends Controller
                     "currency" => "INR",
                 ));
                 $razorpay_order_id = $razorpay_order['id'];
-            } 
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 Log::error('Razorpay API Error: ' . $e->getMessage());
             }
-            return redirect(route('make_payment'))->with(['razorpay_order_id' => $razorpay_order_id, 'customer' => $customer,'order_id' => $order->id]);
-        } 
-        else 
-        {
+            return redirect(route('make_payment'))->with(['razorpay_order_id' => $razorpay_order_id, 'customer' => $customer, 'order_id' => $order->id]);
+        } else {
             return redirect(route('order_placed'));
         }
+    }
+
+    public function search(Request $request)
+    {
+        $search_text = $request->text;
+        $products = Product::with('category')->with('images')
+            ->where('is_deleted', 'no')
+            ->where('is_enabled', 'yes')
+            ->where(function ($query) use ($search_text) {
+                $query->where('name', 'like', "%$search_text%")
+                    ->orWhere('description','like',"%$search_text%")
+                    ->orWhereHas('category', function ($query) use ($search_text) {
+                        $query->where('name', 'like', "%$search_text%");
+                    });
+            })
+            ->get();
+
+        return view('customer.search', compact(['products','search_text']));
     }
 }

@@ -55,8 +55,9 @@
                         </div>
 
                         <div class="aa-search-box">
-                            <form action="" style="margin-bottom:0px">
-                                <input type="text" placeholder="Search here ex. 'man' ">
+                            <form action="{{route('search')}}" style="margin-bottom:0px" name="search" id="search" method="POST">
+                                @csrf
+                                <input name="text" type="text" placeholder="Search here ex. 'man' " value="{{$search_text??''}}">
                                 <button type="submit"><span class="fa fa-search"></span></button>
                             </form>
                         </div>

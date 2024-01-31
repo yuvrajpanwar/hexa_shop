@@ -26,6 +26,9 @@ Route::post('add_to_cart', [FrontController::class, 'add_to_cart'])->name('add_t
 Route::get('cart', [FrontController::class, 'cart'])->name('cart');
 Route::post('remove_cart_product', [FrontController::class, 'remove_cart_product'])->name('remove_cart_product');
 Route::post('update_quantity', [FrontController::class, 'update_quantity'])->name('update_quantity');
+Route::post('search', [FrontController::class, 'search'])->name('search');
+
+
 
 Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');
 Route::post('add_to_wishlist', [WishlistController::class, 'add_to_wishlist'])->name('add_to_wishlist');

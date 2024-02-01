@@ -17,6 +17,8 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\Admin\ManageCustomerController;
 use App\Http\Controllers\CustomerAuth\CustomerLoginController;
+use App\Http\Controllers\CustomerAuth\ResetPasswordController;
+use App\Http\Controllers\CustomerAuth\ForgotPasswordController;
 use App\Http\Controllers\CustomerAuth\CustomerRegisterController;
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
@@ -28,6 +30,11 @@ Route::post('remove_cart_product', [FrontController::class, 'remove_cart_product
 Route::post('update_quantity', [FrontController::class, 'update_quantity'])->name('update_quantity');
 Route::post('search', [FrontController::class, 'search'])->name('search');
 
+// password reset customer
+Route::get('password/customer/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.customer.request');
+Route::post('password/customer/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.customer.email');
+Route::get('password/customer/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.customer.reset');
+Route::post('password/customer/reset', [ResetPasswordController::class, 'reset'])->name('password.customer.update');
 
 
 Route::get('wishlist', [WishlistController::class, 'wishlist'])->name('wishlist');

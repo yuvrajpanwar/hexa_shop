@@ -27,8 +27,11 @@ class CustomerController extends Controller
 
     public function profile(Request $request)
     {
+        if (!Auth::guard('customer')->check()) {
+            return redirect(route('home'));
+        }
+        
         $customer = Auth::guard('customer')->user();
-
         return view('customer.profile', compact('customer'));
     }
 

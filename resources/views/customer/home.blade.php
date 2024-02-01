@@ -27,14 +27,16 @@
 
 
 @section('content')
-@if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    @php
-                        // dd(session()->all());
-                    @endphp
+    @if (session('status'))
+    <div class="alert alert-success alert-dismissible show" role="alert" id="successAlert" style="margin:0">
+        {{session('status')}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    
+
     {{-- <section>
         @if ($errors->has('email') || $errors->has('password'))
             <strong>These credentials do not match our records.</strong>
@@ -463,7 +465,5 @@
                 }
             });
         }
-
-        
     </script>
 @endpush

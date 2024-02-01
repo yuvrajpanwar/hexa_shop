@@ -29,15 +29,16 @@
             justify-content: center;
         }
 
-        .mb20{
+        .mb20 {
             margin-bottom: 20px
         }
-        
-        .continue_shopping:hover{
+
+        .continue_shopping:hover {
             color: #ff6666;
         }
-        .text-align-left{
-            text-align: left!important;
+
+        .text-align-left {
+            text-align: left !important;
         }
     </style>
 
@@ -70,12 +71,14 @@
                         <input type="text" placeholder="Email" name="email" id="email">
                         <label for="">Password<span>*</span></label>
                         <input type="password" placeholder="Password" name="password" id="password">
-                        <label for="remember" class="remember" style="width: 100%"><input type="checkbox"
-                                id="remember"> Remember me</label>
-                        <p class="aa-lost-password" style="width: 100%;display:flex;justify-content:center">
-                            <button class="aa-browse-btn" type="submit" style="float: none">Login</button>
-                            {{-- <a href="#">Lost your password?</a> --}}
-                        </p>
+                        <button class="aa-browse-btn" type="submit" style="float: none">Login</button>
+
+                        <label for="remember" class="remember"><input type="checkbox" id="remember"> Remember
+                            me</label>
+
+
+                        <p class="aa-lost-password"  style="margin-top: 3rem"><a href="{{route('password.customer.request')}}">Forgot password ?</a></p>
+                        <p></p>
                         <div class="aa-register-now">
                             Don't have an account?<a href="{{ route('customer_register') }}">Register now!</a>
                         </div>
@@ -101,11 +104,14 @@
 
     <script>
         $(document).ready(function() {
-            @if (($errors->has('email') && $errors->email != 'The email has already been taken.') || $errors->has('password'))
+            @if (($errors->has('email') && $errors->email != 'The email has already been taken.' ) || $errors->has('password'))
                 $('#login_button').click();
             @endif
         });
     </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+
     @stack('js')
 
 

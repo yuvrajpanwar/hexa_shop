@@ -289,4 +289,5 @@ class FrontController extends Controller
 
         return view('customer.search', compact(['products','search_text']));
     }
+
 }
